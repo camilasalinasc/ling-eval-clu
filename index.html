@@ -1,319 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <title>LLM Evaluator with Linguistic Scrutiny</title>
-  </head>
-  <body>
-    <div id="title-container">
-      <h1>LLM Evaluator with Linguistic Scrutiny</h1>
-    </div>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+  />
+  <title>LLM Evaluator with Linguistic Scrutiny</title>
+</head>
+<body>
+    <h1>LLM Model Integration</h1>
+    
+    <!-- Input field for user's text -->
+    <input type="text" id="userInput" placeholder="Enter your text here">
+    
+    <!-- Button to trigger LLM model -->
+    <button onclick="generateResponse()">Generate Response</button>
+    
+    <!-- Display LLM model response here -->
+    <div id="response"></div>
 
-    <!---------------------------------------------- User Input ---------------------------------------------->
+    <script>
+        // Function to send user input to LLM model
+        function generateResponse() {
+            // Get user input
+            const userInput = document.getElementById("userInput").value;
 
-    <div id="user-input-container">
-      <div class="search-container">
-        <input type="text" id="search-input" placeholder="Ex. cancer" />
-        <button id="search-button">Search</button>
-      </div>
-
-      <div class="default-search-options">
-        <button class="search-option" data-query="Option 1">
-          Default Option 1
-        </button>
-        <button class="search-option" data-query="Option 2">
-          Default Option 2
-        </button>
-        <button class="search-option" data-query="Option 3">
-          Default Option 3
-        </button>
-      </div>
-    </div>
-
-    <div id="search-results">
-      <!-- Search results will be displayed here -->
-      <!-- Add this within the <div id="search-results"> section -->
-      {% if search_results %}
-      <p>{{ search_results }}</p>
-      {% endif %}
-    </div>
-
-    <!----------------------------------- Strategy 1 - QA-Based Prompting ----------------------------------->
-    <div id="content-container">
-      <h2>Strategy 1 - QA-Based Prompting</h2>
-
-      <!-- Model Boxes -->
-      <form method="post">
-        <div class="model-container">
-          <div class="model-box" id="chatgpt-box"> 
-            <h3>ChatGPT</h3>
-            <div class="chatgpt-model-content" style="display: none">
-              <label for="api-key-input">Enter API Key:</label>
-              <input
-                type="password"
-                id="api-key-input"
-                placeholder="Your API Key"
-              />
-              <button id="submit-api-key">Submit</button>
-            </div>
-          </div>
-
-          <!-- LLaMA Model Box -->
-          <div class="model-box" id="llama-box">
-            <h3>LLaMA</h3>
-            <!-- Content for LLaMA -->
-            <div class="llama-model-content" style="display: none">
-              <!-- Content for LLaMA model -->
-              <!-- LLaMA Model Size Dropdown -->
-              <label for="llama-model-size">Select Model Size:</label>
-              <select id="llama-model-size" name="llama-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Vicuna Model Box -->
-          <div class="model-box" id="vicuna-box">
-            <h3>Vicuna</h3>
-            <!-- Content for Vicuna -->
-            <div class="vicuna-model-content" style="display: none">
-              <!-- Content for Vicuna model -->
-              <!-- Vicuna Model Size Dropdown -->
-              <label for="vicuna-model-size">Select Model Size:</label>
-              <select id="vicuna-model-size" name="vicuna-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Alpaca Model Box -->
-          <div class="model-box" id="alpaca-box">
-            <h3>Alpaca</h3>
-            <!-- Content for Alpaca -->
-            <div class="alpaca-model-content" style="display: none">
-              <!-- Content for Alpaca model -->
-              <!-- Alpaca Model Size Dropdown -->
-              <label for="alpaca-model-size">Select Model Size:</label>
-              <select id="alpaca-model-size" name="alpaca-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Flan-T5 Model Box -->
-          <div class="model-box" id="flant5-box">
-            <h3>Flan-T5</h3>
-            <!-- Content for Flan-T5 -->
-            <div class="flant5-model-content" style="display: none">
-              <!-- Content for Flan-T5 model -->
-              <!-- Flan-T5 Model Size Dropdown -->
-              <label for="flant5-model-size">Select Model Size:</label>
-              <select id="flant5-model-size" name="flant5-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <!----------------------------------- Strategy 2 - Instruction-Based Prompting ----------------------------------->
-
-      <h2>Strategy 2 - Instruction-Based Prompting</h2>
-
-      <!-- Model Boxes -->
-      <form method="post">
-        <div class="model-container">
-          <div class="model-box" id="chatgpt-box">
-            <h3>ChatGPT</h3>
-            <div class="chatgpt-model-content" style="display: none">
-              <label for="api-key-input">Enter API Key:</label>
-              <input
-                type="password"
-                id="api-key-input"
-                placeholder="Your API Key"
-              />
-              <button id="submit-api-key">Submit</button>
-            </div>
-          </div>
-
-          <!-- LLaMA Model Box -->
-          <div class="model-box" id="llama-box">
-            <h3>LLaMA</h3>
-            <!-- Content for LLaMA -->
-            <div class="llama-model-content" style="display: none">
-              <!-- Content for LLaMA model -->
-              <!-- LLaMA Model Size Dropdown -->
-              <label for="llama-model-size">Select Model Size:</label>
-              <select id="llama-model-size" name="llama-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Vicuna Model Box -->
-          <div class="model-box" id="vicuna-box">
-            <h3>Vicuna</h3>
-            <!-- Content for Vicuna -->
-            <div class="vicuna-model-content" style="display: none">
-              <!-- Content for Vicuna model -->
-              <!-- Vicuna Model Size Dropdown -->
-              <label for="vicuna-model-size">Select Model Size:</label>
-              <select id="vicuna-model-size" name="vicuna-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Alpaca Model Box -->
-          <div class="model-box" id="alpaca-box">
-            <h3>Alpaca</h3>
-            <!-- Content for Alpaca -->
-            <div class="alpaca-model-content" style="display: none">
-              <!-- Content for Alpaca model -->
-              <!-- Alpaca Model Size Dropdown -->
-              <label for="alpaca-model-size">Select Model Size:</label>
-              <select id="alpaca-model-size" name="alpaca-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Flan-T5 Model Box -->
-          <div class="model-box" id="flant5-box">
-            <h3>Flan-T5</h3>
-            <!-- Content for Flan-T5 -->
-            <div class="flant5-model-content" style="display: none">
-              <!-- Content for Flan-T5 model -->
-              <!-- Flan-T5 Model Size Dropdown -->
-              <label for="flant5-model-size">Select Model Size:</label>
-              <select id="flant5-model-size" name="flant5-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <!----------------------------------- Strategy 3 - Structured Prompting ----------------------------------->
-
-      <h2>Strategy 2 - Instruction-Based Prompting</h2>
-
-      <!-- Model Boxes -->
-      <form method="post">
-        <div class="model-container">
-          <div class="model-box" id="chatgpt-box">
-            <h3>ChatGPT</h3>
-            <div class="chatgpt-model-content" style="display: none">
-              <label for="api-key-input">Enter API Key:</label>
-              <input
-                type="password"
-                id="api-key-input"
-                placeholder="Your API Key"
-              />
-              <button id="submit-api-key">Submit</button>
-            </div>
-          </div>
-
-          <!-- LLaMA Model Box -->
-          <div class="model-box" id="llama-box">
-            <h3>LLaMA</h3>
-            <!-- Content for LLaMA -->
-            <div class="llama-model-content" style="display: none">
-              <!-- Content for LLaMA model -->
-              <!-- LLaMA Model Size Dropdown -->
-              <label for="llama-model-size">Select Model Size:</label>
-              <select id="llama-model-size" name="llama-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Vicuna Model Box -->
-          <div class="model-box" id="vicuna-box">
-            <h3>Vicuna</h3>
-            <!-- Content for Vicuna -->
-            <div class="vicuna-model-content" style="display: none">
-              <!-- Content for Vicuna model -->
-              <!-- Vicuna Model Size Dropdown -->
-              <label for="vicuna-model-size">Select Model Size:</label>
-              <select id="vicuna-model-size" name="vicuna-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Alpaca Model Box -->
-          <div class="model-box" id="alpaca-box">
-            <h3>Alpaca</h3>
-            <!-- Content for Alpaca -->
-            <div class="alpaca-model-content" style="display: none">
-              <!-- Content for Alpaca model -->
-              <!-- Alpaca Model Size Dropdown -->
-              <label for="alpaca-model-size">Select Model Size:</label>
-              <select id="alpaca-model-size" name="alpaca-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Flan-T5 Model Box -->
-          <div class="model-box" id="flant5-box">
-            <h3>Flan-T5</h3>
-            <!-- Content for Flan-T5 -->
-            <div class="flant5-model-content" style="display: none">
-              <!-- Content for Flan-T5 model -->
-              <!-- Flan-T5 Model Size Dropdown -->
-              <label for="flant5-model-size">Select Model Size:</label>
-              <select id="flant5-model-size" name="flant5-model-size">
-                <option value="7B">7B</option>
-                <option value="13B">13B</option>
-                <option value="33B">33B</option>
-                <option value="65B">65B</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
+            // Make an API request to the LLM model (you'll need to replace this with your actual API endpoint)
+            fetch('/your-llm-api-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: userInput }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display LLM model response in the 'response' div
+                document.getElementById("response").innerHTML = data.response;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
 </html>
