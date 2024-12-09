@@ -13,7 +13,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaForCausalLM, 
 from fastchat.model import load_model, get_conversation_template, add_model_args
 
 
-openai.api_key = "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"
+openai.api_key = "OPENAI_API_KEY"
 
 
 # determinant vs. determiner
